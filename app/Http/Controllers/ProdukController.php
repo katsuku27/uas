@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use auth;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,16 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $user = auth()->user()->id();
-        $produks = Produk::all();
+        $user = auth()->user()->id;
+        $produks = Produk::where('user_id','=', $user)->get();
         return view('produk.index', compact('produks'));
+    }
+
+    public function buy()
+    {
+        $user = auth()->user()->id;
+        $produks = Produk::where('user_id','!=', $user)->get();
+        return view('produk.buy', compact('produks'));
     }
 
     /**
@@ -40,7 +48,8 @@ class ProdukController extends Controller
         $produk = Produk::create([
             'name' => $request->name,
             'price' => $request->price,
-            'stok' => $request->stok,  
+            'stok' => $request->stok,
+            'user_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('produk')->with('success', 'Product created successfully.');

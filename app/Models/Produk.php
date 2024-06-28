@@ -12,5 +12,6 @@ class Produk extends Model
         'name',
         'price',
         'stok',
+        'user_id',
     ];
 }
