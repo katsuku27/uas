@@ -22,7 +22,7 @@ class ProdukController extends Controller
     {
         $user = auth()->user()->id;
         $produks = Produk::where('user_id','!=', $user)->get();
-        return view('produk.buy', compact('produks'));
+        return view('dashboard', compact('produks'));
     }
 
     /**
